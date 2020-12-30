@@ -1,0 +1,28 @@
+FROM python:3.6
+
+# Install ubuntu tools
+RUN apt-get update
+RUN apt-get install -y libsasl2-modules libsasl2-dev
+
+# Install pipenv
+RUN pip install --upgrade pip==20.0.2
+RUN pip install pipenv==2018.11.26
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
+
+# Workspace setup
+COPY ./hive_api /hive-server/hive_api
+ENV PYTHONPATH "${PYTHONPATH}:/hive-server"
+
+# Install dependency
+COPY Pipfile /hive-server/Pipfile
+COPY Pipfile.lock /hive-server/Pipfile.lock
+WORKDIR /hive-server
+RUN pipenv install --deploy --system
+
+# User setup
+RUN useradd -ms /bin/bash udc
+RUN chown -R udc:udc /hive-server
+USER udc
+
+CMD ["python", "hive_api/app.py"]
