@@ -70,6 +70,7 @@ class QueriesHive():
         self.add_row(dict, temp_table)
         # TODO test the query_union_table
         query_union_table = "INSERT OVERWRITE "+self.tableName + "date_insertion_partition='"+dict['date_insertion_partition']+"' SELECT * FROM "+temp_table + "DISTRIBUTION BY date_insertion_partition"
+        self.run_quiery(query_union_table)
         self.drop_table(temp_table)
         # TODO return that update Succeeded
         results = "Succeeded"

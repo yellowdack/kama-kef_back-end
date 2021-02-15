@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_file
 from flask import jsonify
 from flask import request
 
@@ -40,7 +40,7 @@ def hello_user():
     return jsonify({'message': 'Hello, User!'})
 
 
-@app.route('/tableToo', methods=['GET'])
+@app.route('/table', methods=['GET'])
 # get All Table - select * from tabletoo
 def return_all():
     # all_table = QueriesHive("ool Table").get_all_table()
@@ -49,7 +49,7 @@ def return_all():
 
 
 # with variable in the route
-@app.route('/tableToo', methods=['GET'])
+@app.route('/table', methods=['GET'])
 # select * from tableToo where column =/> value
 def return_by_value():
     dict = request.args.to_dict()
@@ -65,7 +65,7 @@ def return_by_value():
     return jsonify({'tableToo': filter_table})
 
 
-@app.route('/tableToo', methods=['POST'])
+@app.route('/table', methods=['POST'])
 def add_one():
     # TODO - check if works with args
     # TODO - decide what require in the columns
@@ -82,7 +82,7 @@ def add_one():
     return jsonify({'quarks': tableToo})
 
 
-@app.route('/tableToo', methods=['PUT'])
+@app.route('/table', methods=['PUT'])
 def edit_one(name):
     dict_edit = request.args.to_dict()
     # update_row_in_table = QueriesHive("ool Table").update_row(dict_edit)
@@ -91,7 +91,7 @@ def edit_one(name):
     return jsonify({'quarks': html_file})
 
 
-@app.route('/tableToo', methods=['DELETE'])
+@app.route('/table', methods=['DELETE'])
 def delete_one(name):
     req_data = request.get_json()
     # delete_row_in_table = QueriesHive("ool Table").delete_row(req_data['hoolid'].upper())
@@ -111,6 +111,13 @@ def return_by_value_on():
     all_ool_by_on = tableToo[1]
     return jsonify({'tableToo': all_ool_by_on})
 
+
+
+@app.route('/coding.PNG')
+def logo():
+    def get_image():
+        filename = 'images\\coding.PNG'
+        return send_file(filename, mimetype='image/png')
 
 if __name__ == "__main__":
     app.run(debug=True)
