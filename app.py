@@ -7,33 +7,38 @@ from flask import request
 
 app = Flask(__name__)
 
-tableToo = [{'date_insertion': '18-03-2020',
-             'oolId': '563e6w53we',
-             'oolFamily': 'sd',
-             'aadName': 'dsddf',
-             'ik': '568789',
-             'on': 'jkld jklsd jkl',
-             'manId': 'sdad',
-             'omp': '123',
-             'unit': 'dsedef',
-             'comments': 'sdadsd',
-             'date_insertion_partition': '03-2020'},
-            {'date_insertion': '18-08-2020',
-             'manId': 'dsfdafadf',
-             'ip': '127.0.0.1',
-             'birth_date': '18-08-2020',
-             'last_date': '18-08-2020',
-             'oolId': 'dsfsdfsd',
-             'oolFamily': 'a',
-             'on': 'dsafasfdsf',
-             'aadName': 'dsddfsfdf',
-             'ik': '4135',
-             'omp': '568',
-             'unit': 'dsfs',
-             'comments': 'dsfejk',
-             'date_insertion_partition': '04-2020'},
-            ]
-
+tableToo = {"ools": [
+           {"ID": '563e6w53we',
+            "Date Create": '18-03-2020',
+            "Kama": 'jkl',
+            "Last_i": '127.0.0.1',
+            "Birth_Date": '18-08-2020',
+            "Last_Date": '18-08-2020',
+            "ID_Family": 'sd',
+            ">Op_Name": 'jkld jklsd jkl',
+            "Aad_Name": 'dsddfsfdf',
+            "Ik": '568789',
+            "Omp": '123',
+            "Unit": 'dsedef',
+            "Comments": 'sdadsd',
+            "Insertion_Time": '03-2020'
+            },
+            {"ID": '563e6w53we',
+             "Date Create": '18-03-2020',
+             "Kama": 'jkl',
+             "Last_i": '127.0.0.1',
+             "Birth_Date": '18-08-2020',
+             "Last_Date": '18-08-2020',
+             "ID_Family": 'sd',
+             ">Op_Name": 'jkld jklsd jkl',
+             "Aad_Name": 'dsddfsfdf',
+             "Ik": '568789',
+             "Omp": '123',
+             "Unit": 'dsedef',
+             "Comments": 'sdadsd',
+             "Insertion_Time": '03-2020'
+             }
+            ]}
 
 @app.route('/', methods=['GET'])
 def hello_user():
@@ -43,13 +48,14 @@ def hello_user():
 @app.route('/table', methods=['GET'])
 # get All Table - select * from tabletoo
 def return_all():
+    print(request.headers)
     # all_table = QueriesHive("ool Table").get_all_table()
     all_table = tableToo
     return jsonify({'tableToo': all_table})
 
 
 # with variable in the route
-@app.route('/table', methods=['GET'])
+@app.route('/admin/table', methods=['GET'])
 # select * from tableToo where column =/> value
 def return_by_value():
     dict = request.args.to_dict()
@@ -65,7 +71,7 @@ def return_by_value():
     return jsonify({'tableToo': filter_table})
 
 
-@app.route('/table', methods=['POST'])
+@app.route('/admin/table', methods=['POST'])
 def add_one():
     # TODO - check if works with args
     # TODO - decide what require in the columns
@@ -82,7 +88,7 @@ def add_one():
     return jsonify({'quarks': tableToo})
 
 
-@app.route('/table', methods=['PUT'])
+@app.route('/admin/table', methods=['PUT'])
 def edit_one(name):
     dict_edit = request.args.to_dict()
     # update_row_in_table = QueriesHive("ool Table").update_row(dict_edit)
@@ -91,7 +97,7 @@ def edit_one(name):
     return jsonify({'quarks': html_file})
 
 
-@app.route('/table', methods=['DELETE'])
+@app.route('/admin/table', methods=['DELETE'])
 def delete_one(name):
     req_data = request.get_json()
     # delete_row_in_table = QueriesHive("ool Table").delete_row(req_data['hoolid'].upper())
